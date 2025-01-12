@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ShelfSwap</title>
+  <style>
+    body {
+      font-family: Judson;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      color: black;
+      background-color: #F0E7E2;
+    }
+
+ #logo {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      width: 300px; 
+      height: auto;
+    }
+
+    #input-container {
+      width: 80%;
+      max-width: 500px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    input[type="text"] {
+      font-family: Judson;
+      padding: 10px;
+      font-size: 1.5em;
+      width: 100%;
+      margin-bottom: 10px;
+      border: 2px solid #0000;
+      border-radius: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-family: Judson;
+      font-size: 1.5em;
+      border: none;
+      background-color: #727a6b;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button2 {
+      padding: 10px 20px;
+      font-family: Judson;
+      font-size: 1.5em;
+      border: none;
+      background-color: #727a6b;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+
+    #book-info {
+      margin-top: 40px; /* Adds space to move it lower */
+      font-size: 1.2em;
+      color: black;
+      text-align: center;
+      white-space: pre-wrap;
+      max-width: 80%;
+    }
+
+    #book-description {
+      margin-top: 60px;
+      font-size: 1em;
+      color: black;
+      text-align: left;
+      white-space: pre-wrap;
+      max-width: 80%;
+    }
+
+  </style>
+</head>
+<body>
+
+  <img id="logo" src="logo.png" alt="Logo">
+
+
+  <h1>ShelfSwap</h1>
+
+  <div id="input-container">
+    <!-- Input field for ISBN and button to get book data -->
+    <input type="text" id="isbn-input" placeholder="Enter ISBN" />
+    <button id="lookup-button">Lookup Book</button>
+    <button2 id="add-book">Add Book</button2>
+  </div>
+
+  <div id="book-info"></div>
+  <div id="book-description"></div>
+
+  <script>
+    // Function to look up book details from Google Books API using ISBN
+    async function lookupBook(isbn) {
+      // Create the API request URL using the ISBN
+      const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`;
+
+      try {
+        //make the API request
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        //check if the book was found
+        if (data.items && data.items.length > 0) {
+          // Get book details
+          const book = data.items[0].volumeInfo;
+          
+          //display book title and author
+          document.getElementById("book-info").textContent = `Title: ${book.title}\nAuthor: ${book.authors?.join(", ")}`;
+          document.getElementById("book-info").innerHTML = `Title: ${book.title}<br>Author: ${book.authors?.join(", ")}`;
+
+          
+          //display the book description
+          const description = book.description ? book.description : "No description available.";
+          document.getElementById("book-description").textContent = `Description:\n${description}`;
+        } else {
+          document.getElementById("book-info").textContent = "Book not found.";
+          document.getElementById("book-description").textContent = "";
+        }
+      } catch (error) {
+        // Handle any errors from the API request
+        console.error("Error fetching book details:", error);
+        document.getElementById("book-info").textContent = "Error";
+        document.getElementById("book-description").textContent = "";
+      }
+    }
+
+    //event listener for "Lookup Book" button
+    document.getElementById("lookup-button").addEventListener("click", function() {
+      // Get the ISBN code entered by the user
+      const isbn = document.getElementById("isbn-input").value.trim();
+
+      //if user entered an ISBN, look up the book
+      if (isbn) {
+        lookupBook(isbn);
+      } else {
+        // If the user didn't enter an ISBN, show an error message
+        document.getElementById("book-info").textContent = "Enter a valid ISBN.";
+        document.getElementById("book-description").textContent = "";
+      }
+    });
+  </script>
+</body>
+</html>
