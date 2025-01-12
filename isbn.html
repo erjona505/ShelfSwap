@@ -103,7 +103,7 @@
   <div id="book-description"></div>
 
   <script>
-    // Function to look up book details from Google Books API using ISBN
+    //function to look up book details from Google Books API using ISBN
     async function lookupBook(isbn) {
       // Create the API request URL using the ISBN
       const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`;
@@ -131,7 +131,7 @@
           document.getElementById("book-description").textContent = "";
         }
       } catch (error) {
-        // Handle any errors from the API request
+        //handle any errors from the API request
         console.error("Error fetching book details:", error);
         document.getElementById("book-info").textContent = "Error";
         document.getElementById("book-description").textContent = "";
