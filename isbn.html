@@ -88,7 +88,7 @@
   <div id="book-description"></div>
 
   <script>
-    // Function to look up book details from Google Books API using ISBN
+    //function to look up book details from Google Books API using ISBN
     async function lookupBook(isbn) {
       const apiUrl = `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}`;
       try {
@@ -98,7 +98,7 @@
         if (data.items && data.items.length > 0) {
           const book = data.items[0].volumeInfo;
           document.getElementById("book-info").innerHTML = `Title: ${book.title}<br>Author: ${book.authors?.join(", ")}`;
-          const description = book.description ? book.description : "No description available.";
+          const description = book.description ? book.description : "No description available";
           document.getElementById("book-description").textContent = `Description:\n${description}`;
         } else {
           document.getElementById("book-info").textContent = "Book not found.";
@@ -111,7 +111,7 @@
       }
     }
 
-    // Event listener for "Lookup Book" button
+    //event listener for "Lookup Book" button
     document.getElementById("lookup-button").addEventListener("click", function() {
       const isbn = document.getElementById("isbn-input").value.trim();
       if (isbn) {
@@ -122,7 +122,7 @@
       }
     });
 
-    // Event listener for "Add Book" button
+    //event listener for "Add Book" button
     document.getElementById("add-book").addEventListener("click", function() {
       const figmaURL = "https://www.figma.com/proto/1VLzPyi5XSCS7t0tRaw9vu/Untitled?node-id=48-268&p=f&t=ZRQQ8X2DkCXkYlhK-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3&show-proto-sidebar=1"; 
       window.location.href = figmaURL;
