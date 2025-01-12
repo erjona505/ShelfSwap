@@ -94,8 +94,11 @@
         const bookData = await response.json();
 
         if (bookData.items && bookData.items.length > 0) {
-          const book = bookData.items[0].volumeInfo;
+          //get details of first book
+          const book = bookData.items[0].volumeInfo; 
+          //display title & author in book-info section
           document.getElementById("book-info").innerHTML = `Title: ${book.title}<br>Author: ${book.authors?.join(", ")}`;
+          // display book description if found
           const description = book.description ? book.description : "No description available";
           document.getElementById("book-description").textContent = `Description:\n${description}`;
         } else {
@@ -103,6 +106,7 @@
           document.getElementById("book-description").textContent = "";
         }
       } catch (error) {
+        //display error message if call fails
         console.error("Error getting book details:", error);
         document.getElementById("book-info").textContent = "Error";
         document.getElementById("book-description").textContent = "";
@@ -113,6 +117,7 @@
     document.getElementById("lookup-button").addEventListener("click", function() {
       const isbn = document.getElementById("isbn-input").value.trim();
       if (isbn) {
+       //call lookupBook function if valid ISBN is entered
         lookupBook(isbn);
       } else {
         document.getElementById("book-info").textContent = "Enter a valid ISBN.";
@@ -123,7 +128,7 @@
     //event listener for "Add Book" button
     document.getElementById("add-book").addEventListener("click", function() {
       const figmaURL = "https://www.figma.com/proto/1VLzPyi5XSCS7t0tRaw9vu/ShelfSwap?node-id=14-137&p=f&t=ZRQQ8X2DkCXkYlhK-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A3&show-proto-sidebar=1"; 
-      window.location.href = figmaURL;
+      window.location.href = figmaURL; //return to Figma design
     });
   </script>
 </body>
